@@ -57,11 +57,20 @@ function csv_to_array(csv){
             if(/[\"'](.+)[\"']$/.test(words[j].trim()) )
             {
                 obj[headers[j].trim()] = (words[j].replace(/[\"'](.+)[\"']$/,'$1').length > 0 ? words[j].replace(/[\"'](.+)[\"']$/,'$1') : null);
-                
             }else if(/^(?=.)([+-]?([0-9]*)(\.([0-9]+))?)$/.test(words[j].trim())){
                 obj[headers[j].trim()] = Number(words[j]);
             }else{
-                obj[headers[j].trim()] = null
+                
+                if(isNaN(parseInt(words[j])))
+                {
+                    if(words[j].trim().length > 0)
+                        obj[headers[j].trim()] = words[j].trim()
+                    else
+                        obj[headers[j].trim()] = null
+                }else{
+                    obj[headers[j].trim()] = Number(words[j]);
+                }
+                
             }
         }
 
@@ -236,7 +245,6 @@ function standardDeviation(arr){
     let mean = sum/arr.length;
     let sum2 = arr.map(x => (x-mean)**2).reduce((a, b) => a + b,0);
     let variance = sum2/(arr.length-1);
-    console.log(variance)
     return Math.sqrt(variance);
 }
 
