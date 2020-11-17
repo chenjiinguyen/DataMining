@@ -14,6 +14,7 @@ $(function() {
                 $(table).DataTable().destroy();
                 $(table).empty();
             }
+            console.log(arr)
             toDataTable(table,arr);
             if ($.fn.DataTable.isDataTable(removenull_table)) {
                 $(removenull_table).DataTable().destroy();
@@ -58,10 +59,9 @@ function csv_to_array(csv){
             {
                 obj[headers[j].trim()] = (words[j].replace(/[\"'](.+)[\"']$/,'$1').length > 0 ? words[j].replace(/[\"'](.+)[\"']$/,'$1') : null);
             }else if(/^(?=.)([+-]?([0-9]*)(\.([0-9]+))?)$/.test(words[j].trim())){
-                obj[headers[j].trim()] = Number(words[j]);
+                obj[headers[j].trim()] = Number(words[j].trim());
             }else{
-                
-                if(isNaN(parseInt(words[j])))
+                if(isNaN(parseInt(words[j].trim())))
                 {
                     if(words[j].trim().length > 0)
                         obj[headers[j].trim()] = words[j].trim()
@@ -70,11 +70,8 @@ function csv_to_array(csv){
                 }else{
                     obj[headers[j].trim()] = Number(words[j]);
                 }
-                
             }
         }
-
-
         result.push(obj);
     }}
     catch(e){
@@ -259,6 +256,6 @@ function zScore(arr){
     let sD = standardDeviation(arr);
     const sum = arr.reduce((a, b) => a + b, 0);
     const avg = (sum / arr.length) || 0;
-    return arr.map(x => (sD == 0 ? avg : (x - avg)/sD))
+    return arr.map(x => (sD == 0 ? 0 : (x - avg)/sD))
 }
 

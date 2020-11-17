@@ -6,7 +6,11 @@ var fs = require('fs')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Data Processing' });
+});
+
+router.get('/binning', function(req, res, next) {
+  res.render('binning', { title: 'Chia Giỏ - Binning' });
 });
 
 module.exports = router;
